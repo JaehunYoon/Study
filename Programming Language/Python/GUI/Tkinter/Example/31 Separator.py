@@ -30,4 +30,4 @@ s2.grid(row=1,column=2, sticky='ew')
 s3=tkinter.ttk.Separator(window, orient="vertical")
 s3.grid(row=1,column=0, sticky='ns')
 
-window.mainloop()x
+window.mainloop()
