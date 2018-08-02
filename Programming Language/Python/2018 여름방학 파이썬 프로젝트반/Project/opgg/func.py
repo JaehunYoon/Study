@@ -47,6 +47,28 @@ def get_most_champion(get_user):
 
     return most
 
+def get_champion_winrate(get_user):
+    url = 'http://www.op.gg/summoner/champions/userName='
+    user_name = get_user
+    query = url + quote(user_name)
+    res = requests.get(query)
+    soup = BeautifulSoup(res.text, 'lxml')
+
+    win_rate = soup.select('.WinRatioGraph span[class*=WinRatio]')
+
+    return win_rate
+
+def get_champion_kda(get_user):
+    url = 'http://www.op.gg/summoner/champions/userName='
+    user_name = get_user
+    query = url + quote(user_name)
+    res = requests.get(query)
+    soup = BeautifulSoup(res.text, 'lxml')
+
+    kda = soup.select('.KDA div[class*=KDA]')
+
+    return kda
+
 def add_dict(lists):
     if len(lists) > 1:
         temp = ""
@@ -63,5 +85,6 @@ def check_unranked(lists):
         return "Unranked"
     else:
         return add_dict(lists)
+
 
 rm_escape_sequence = lambda x: x.replace('\n','').replace(' ', '').replace('\t', '')

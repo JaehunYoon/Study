@@ -12,8 +12,7 @@ window.geometry("1280x1080")
 window.resizable(True, True)
 
 image = tkinter.PhotoImage(file="../Project/main.PNG")
-title_image = tkinter.Label(window, image=image)
-title_image.pack()
+title_image = tkinter.Label(window, image=image).pack()
 
 def summoner_name(event):
     user['summoner_name'] = f'{input_username.get()}'
@@ -28,8 +27,7 @@ input_username = tkinter.Entry(window)
 input_username.bind("<Return>", summoner_name)
 input_username.pack()
 
-label = tkinter.Label(window)
-label.pack()
+label = tkinter.Label(window).pack()
 
 
 window.mainloop()

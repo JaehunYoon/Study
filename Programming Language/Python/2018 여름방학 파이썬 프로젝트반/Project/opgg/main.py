@@ -9,6 +9,10 @@ from time import sleep
 __author__ = "goodasd123@naver.com"
 __github__ = "https://github.com/JaehunYoon/"
 
+# --test--
+test_champ = []
+# --test--
+
 # Window Initiallize
 window = tkinter.Tk()
 window.title("Simple OP.GG")
@@ -26,6 +30,8 @@ menu.add_command(label='Exit', command=window.destroy)
 menubar.add_cascade(label="메뉴", menu=menu)
 window.config(menu=menubar)
 
+temp = []
+
 # Frame, ScrollBar
 frame = tkinter.Frame(window)
 scrollbar = tkinter.Scrollbar(frame)
@@ -38,6 +44,10 @@ title_image.pack()
 
 
 def summoner_name(event):
+    test_champ = []
+    test_winrate = []
+    global temp
+
     most_champion_list.delete(0, 'end')
     user = get_username(input_username.get())
 
@@ -60,6 +70,19 @@ def summoner_name(event):
         # Most Champion
         for index, champion in enumerate(get_most_champion(input_username.get())):
             most_champion_list.insert(index + 1, f"Most {index+1} : {champion['data-value']}")
+            test_champ.append(champion['data-value'])
+        
+        # Test
+        for champ in get_most_champion(input_username.get()):
+            test_champ.append(champ['data-value'])
+
+        for win in get_champion_winrate(input_username.get()):
+            test_winrate.append(win.text)
+
+        temp = list(zip(test_champ, test_winrate))
+
+        print(temp)
+        champion_winrate()
 
 # Entry
 input_username = tkinter.Entry(window)
@@ -82,40 +105,41 @@ flex_rank_label.pack()
 most_champion_list.pack(side="left")
 frame.pack()
 
-# Sub Screen
-sub_screen = tkinter.Toplevel(window)
-sub_screen.geometry("640x480+700+100")
+# ---test---
 
-# --test--
-def cc(self):
-    treeview.tag_configure("selected", background="red")
+def champion_winrate():
+    global temp
+    # def cc(self):
+    #     treeview.tag_configure("selected", background="red")
+    
+    sub_screen = tkinter.Toplevel(window)
+    sub_screen.geometry("640x480+700+100")
+    treeview = tkinter.ttk.Treeview(sub_screen, columns=["one", "two"])
+    treeview.pack()
 
-treeview=tkinter.ttk.Treeview(sub_screen, columns=["one", "two"])
-treeview.pack()
+    treeview.column("#0", width=70)
+    treeview.heading("#0", text="Most", anchor="center")
 
-treeview.column("#0", width=70)
-treeview.heading("#0", text="Most")
+    treeview.column("one", width=100, anchor="center")
+    treeview.heading("one", text="챔피언", anchor="center")
 
-treeview.column("one", width=100, anchor="center")
-treeview.heading("one", text="챔피언", anchor="center")
+    treeview.column("#2", width=100, anchor="center")
+    treeview.heading("two", text="승률", anchor="center")
 
-treeview.column("#2", width=100, anchor="center")
-treeview.heading("two", text="승률", anchor="center")
+    treelist = temp
 
-treelist=[("Zoe", "65%"), ("Leblanc", "66%"), ("Azir", "59%"), ("Lee sin", "71%"), ("Ashe", "90%")]
+    top = list(range(len(treelist)))
+    top_mid = [[0 for _ in range(3)] for _ in range(len(treelist))]
 
-# print(treelist[0][0])
+    for i in range(len(treelist)):
+        top[i] = treeview.insert('', 'end', text=i, values=treelist[i], tags="tag1")
+        for j in range(3):
+            top_mid[i][j] = treeview.insert(top[i], 'end', text="test", values=["test", j])
 
-for i in range(len(treelist)):
-    treeview.insert('', 'end', text=i, values=treelist[i])
-
-top = treeview.insert('', 'end', text=str(len(treelist)), tags="tag1")
-top_mid1 = treeview.insert(top, 'end', text="5-1", values=["one", 0])
-top_mid2 = treeview.insert(top, 'end', text="5-2", values=["two", 1], tags="selected")
-top_mid3 = treeview.insert(top, 'end', text="5-3", values=["three", 2])
-
-treeview.tag_bind("tag1", sequence="<<TreeviewSelect>>", callback=cc)
-# --test--
+    treeview.tag_bind("tag1", sequence="<<TreeviewSelect>>") # , callback=cc
 
 window.mainloop()
 # -----
+
+
+

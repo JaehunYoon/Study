@@ -1,11 +1,11 @@
 import tkinter
 
 window = tkinter.Tk()
-window.title("Simple Python Paint")
+window.title("Simple DrawingBook")
 window.state("zoomed")
 window.resizable(True, True)
 
-width = 3
+width = 1
 
 def drawing(event):
     if width > 0:
@@ -28,7 +28,7 @@ canvas.pack(expand=True, fill="both")
 canvas.bind("<B1-Motion>", drawing)
 canvas.bind("<MouseWheel>", scroll)
 
-label=tkinter.Label(window, text=str(width))
+label = tkinter.Label(window, text=str(width))
 label.pack()
 
 window.mainloop()
