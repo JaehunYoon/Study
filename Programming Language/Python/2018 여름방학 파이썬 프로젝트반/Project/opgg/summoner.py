@@ -78,4 +78,20 @@ test_kda = []
 for kda in get_champion_kda(user_name):
     test_kda.append(rm_escape_sequence(kda.text))
 
-print(test_kda)
+# print(test_kda)
+
+# Test - 평점 뽑아오기
+test_kda_average = []
+
+for avg in get_kda_average(user_name):
+    test_kda_average.append(avg['data-value'])
+
+# print(test_kda_average)
+
+temp = list(zip(test_kda, test_kda_average))
+
+print(temp[0][0])
+
+# Test - 챔피언 평균 승률 뽑아오기
+
+print(test_champ)

@@ -69,6 +69,29 @@ def get_champion_kda(get_user):
 
     return kda
 
+def get_kda_average(get_user):
+    url = 'http://www.op.gg/summoner/champions/userName='
+    user_name = get_user
+    query = url + quote(user_name)
+    res = requests.get(query)
+    soup = BeautifulSoup(res.text, 'lxml')
+
+    average = soup.select('.Row td[class*=KDA]')
+
+    return average
+
+def get_champion_average_winrate(champion):
+    url = 'http://www.op.gg/champion/'
+    query = url + quote(champion)
+    
+    res = requests.get(query)
+    soup = BeautifulSoup(res.text, 'lxml')
+
+    champ = soup.find('div', {'class': 'champion-stats-trend'})
+    win_rate = champ.find('div', {'class': 'champion-stats-trend-rate'})
+
+    return rm_escape_sequence(win_rate.text)
+
 def add_dict(lists):
     if len(lists) > 1:
         temp = ""
