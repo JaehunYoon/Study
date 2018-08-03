@@ -137,17 +137,15 @@ def champion_winrate():
     treeview.heading("two", text="승률", anchor="center")
 
     treelist = champ_temp
-
     top = list(range(len(treelist)))
     top_mid = [[0 for _ in range(subtree_value)] for _ in range(len(treelist))]
 
     for i in range(len(treelist)):
         top[i] = treeview.insert('', 'end', text=i+1, values=treelist[i], tags="tag1")
-        
         # Test - User | KDA | Winrate
         top_mid[i][0] = treeview.insert(top[i], 'end', text="User", values=["KDA", "승률"])
         top_mid[i][1] = treeview.insert(top[i], 'end', text=f"{summoner}", values=[f"{kda_champ_temp[i][0]} ({kda_champ_temp[i][1]})", f"{treelist[i][1]}"])
-        top_mid[i][2] = treeview.insert(top[i], 'end', text="평균", values=["KDA", f"{get_champion_average_winrate(treelist[i][0])}"])
+        top_mid[i][2] = treeview.insert(top[i], 'end', text="평균", values=["KDA", f"{get_champion_average_winrate(remove_special_char(treelist[i][0]))}"])
         top_mid[i][3] = treeview.insert(top[i], 'end', text="User", values=["KDA", "승률"])
 
     treeview.tag_bind("tag1", sequence="<<TreeviewSelect>>") # , callback=cc

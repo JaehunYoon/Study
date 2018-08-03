@@ -1,4 +1,5 @@
 import requests
+from string import ascii_letters
 from urllib.parse import quote
 from bs4 import BeautifulSoup
 
@@ -109,5 +110,41 @@ def check_unranked(lists):
     else:
         return add_dict(lists)
 
+def remove_special_char(letter):
+    temp = list(letter) # list('Zoe')
+    check_ascii = ascii_letters
+    check_complete = []
+    removed_letter = ""
+
+    for c in temp:
+        if c in check_ascii:
+            continue
+        print(f"{letter}에서 {c}가 걸러졌습니다!")
+        temp.remove(c)
+
+    removed_letter = "".join(temp)
+
+    return removed_letter
+    
+    # temp = letter
+    # removed_list = []
+    # check_complete = []
+    
+    
+    # for champ in temp:
+    #     tmp = list(champ)
+    #     for c in tmp:
+    #         if c in check_ascii:
+    #             continue
+    #         print(f"{champ}에서 [{c}]가 걸러졌습니다!")
+    #         tmp.remove(c)
+    #     check_complete.append(tmp)
+    
+    # for champ in check_complete:
+    #     removed_list.append("".join(champ))
+
+    # print(removed_list)
+
+    # return removed_list
 
 rm_escape_sequence = lambda x: x.replace('\n','').replace(' ', '').replace('\t', '')
