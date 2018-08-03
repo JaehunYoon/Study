@@ -1,18 +1,12 @@
-import tkinter as tk
+import requests
+from urllib.parse import quote
+from bs4 import BeautifulSoup
 
-def window1():
-    window = tk.Toplevel(root)
-    window.title("Welcome")
+url = "http://www.op.gg/champion/mordekaiser/statistics"
 
-    # etc etc ...
+res = requests.get(url)
+soup = BeautifulSoup(res.text, 'lxml')
 
-    tk.Button(window,text="Enter...",command=lambda: window2(window)).pack()
+test = soup.find('h1', {'class': 'SectionHeadLine'})
 
-def window2(old_window):
-    old_window.destroy()
-    # window2 stuff
-
-root = tk.Tk()
-root.iconify() # to minimize it, since we're just using Toplevels on top of it
-window1()
-root.mainloop()
+print(test)

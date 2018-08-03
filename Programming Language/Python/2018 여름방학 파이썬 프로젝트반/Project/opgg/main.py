@@ -118,6 +118,9 @@ frame.pack()
 # TreeView
 def champion_winrate():
     global champ_temp
+    kda_tell = ""
+    winrate_tell = ""
+
     subtree_value = 4
     # def cc(self):
     #     treeview.tag_configure("selected", background="red")
@@ -127,10 +130,10 @@ def champion_winrate():
     treeview = tkinter.ttk.Treeview(sub_screen, columns=["one", "two"])
     treeview.pack()
 
-    treeview.column("#0", width=100)
+    treeview.column("#0", width=200)
     treeview.heading("#0", text="Most", anchor="center")
 
-    treeview.column("one", width=200, anchor="center")
+    treeview.column("one", width=150, anchor="center")
     treeview.heading("one", text="챔피언", anchor="center")
 
     treeview.column("#2", width=200, anchor="center")
@@ -143,10 +146,28 @@ def champion_winrate():
     for i in range(len(treelist)):
         top[i] = treeview.insert('', 'end', text=i+1, values=treelist[i], tags="tag1")
         # Test - User | KDA | Winrate
+        user_win_rate = float(treelist[i][1].replace('%', ''))
+        average = get_champion_average_winrate(remove_special_char(treelist[i][0]))
+        average_win_rate = ""
+        if average == "고인이여서 확인이 불가능합니다.":
+            average_win_rate = average
+            winrate_tell = "고인"
+        else:
+            average_win_rate = float(average.replace('%', ''))
+        
+            if user_win_rate > average_win_rate:
+                winrate_tell = "평균보다 승률이 높습니다!"
+            elif user_win_rate < average_win_rate:
+                winrate_tell = "남들보다 못하네요.."
+            elif user_win_rate == average_win_rate:
+                winrate_tell = "딱 평균 실력이네요."
+            
+            average_win_rate = str(average_win_rate) + '%'
+
         top_mid[i][0] = treeview.insert(top[i], 'end', text="User", values=["KDA", "승률"])
         top_mid[i][1] = treeview.insert(top[i], 'end', text=f"{summoner}", values=[f"{kda_champ_temp[i][0]} ({kda_champ_temp[i][1]})", f"{treelist[i][1]}"])
-        top_mid[i][2] = treeview.insert(top[i], 'end', text="평균", values=["KDA", f"{get_champion_average_winrate(remove_special_char(treelist[i][0]))}"])
-        top_mid[i][3] = treeview.insert(top[i], 'end', text="User", values=["KDA", "승률"])
+        top_mid[i][2] = treeview.insert(top[i], 'end', text="평균", values=["준비중입니다", f"{average_win_rate}"])
+        top_mid[i][3] = treeview.insert(top[i], 'end', text="=>", values=["준비중입니다", winrate_tell])
 
     treeview.tag_bind("tag1", sequence="<<TreeviewSelect>>") # , callback=cc
 

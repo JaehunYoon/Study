@@ -88,10 +88,13 @@ def get_champion_average_winrate(champion):
     res = requests.get(query)
     soup = BeautifulSoup(res.text, 'lxml')
 
-    champ = soup.find('div', {'class': 'champion-stats-trend'})
-    win_rate = champ.find('div', {'class': 'champion-stats-trend-rate'})
+    if soup.find('h1', {'class': 'SectionHeadLine'}) != None:
+        return "고인이여서 확인이 불가능합니다."
+    else:
+        champ = soup.find('div', {'class': 'champion-stats-trend'})
+        win_rate = champ.find('div', {'class': 'champion-stats-trend-rate'})
 
-    return rm_escape_sequence(win_rate.text)
+        return rm_escape_sequence(win_rate.text)
 
 def add_dict(lists):
     if len(lists) > 1:
@@ -113,7 +116,6 @@ def check_unranked(lists):
 def remove_special_char(letter):
     temp = list(letter) # list('Zoe')
     check_ascii = ascii_letters
-    check_complete = []
     removed_letter = ""
 
     for c in temp:
@@ -125,26 +127,5 @@ def remove_special_char(letter):
     removed_letter = "".join(temp)
 
     return removed_letter
-    
-    # temp = letter
-    # removed_list = []
-    # check_complete = []
-    
-    
-    # for champ in temp:
-    #     tmp = list(champ)
-    #     for c in tmp:
-    #         if c in check_ascii:
-    #             continue
-    #         print(f"{champ}에서 [{c}]가 걸러졌습니다!")
-    #         tmp.remove(c)
-    #     check_complete.append(tmp)
-    
-    # for champ in check_complete:
-    #     removed_list.append("".join(champ))
-
-    # print(removed_list)
-
-    # return removed_list
 
 rm_escape_sequence = lambda x: x.replace('\n','').replace(' ', '').replace('\t', '')
