@@ -23,7 +23,7 @@ random = temp1 + temp2 + temp3 + temp4 + temp5
 shuffle(random)
 target = random.pop()
 # Temp Label
-temp = tkinter.Label(window,text="\t")
+temp = tkinter.Label(window, text="\t")
 temp.grid(row=0, column=0)
 
 # Button
@@ -32,6 +32,8 @@ column = 1
 num = 0
 button = list(range(20))
 
+
+# Grid Setting
 for i in range(20):
     button[i] = tkinter.Button(window, text="", overrelief='solid', width=5, height=2, repeatdelay=1000, repeatinterval=100)
 
