@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>SimpleBoard</title>
+        <title>Simple Board</title>
     </head>
     <body>
         <h1>h4lo</h1>
