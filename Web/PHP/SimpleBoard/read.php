@@ -21,25 +21,25 @@
     <table width=580 border=0 cellpadding=2 cellspacing=1 bgcolor=#777777>
         <tr>
             <td>
-                <font color=white><b><?=$row[title]?></b></font>
+                <font color=white><b><?=$row['title']?></b></font>
             </td>
         </tr>
         <tr>
             <td width=50 height=20 align=center bgcolor=#EEEEEE>글쓴이</td>
-            <td width=240 bgcolor=white><?row[name]?></td>
+            <td width=240 bgcolor=white><?=$row['name']?></td>
             <td width=50 height=20 align=center bgcolor=#EEEEEE>이메일</td>
-            <td width=240 bgcolor=white><?row[email]?></td>
+            <td width=240 bgcolor=white><?=$row['email']?></td>
         </tr>
         <tr>
             <td width=50 height=20 align=center bgcolor=#EEEEEE>날&nbsp;&nbsp;&nbsp;짜</td>
-            <td width=240 bgcolor=white><?row[wdate]?></td>
+            <td width=240 bgcolor=white><?=$row['wdate']?></td>
             <td width=50 height=20 align=center bgcolor=#EEEEEE>조회수</td>
-            <td width=240 bgcolor=white><?row[view]?></td>
+            <td width=240 bgcolor=white><?=$row['view']?></td>
         </tr>
         <tr>
             <td bgcolor=white colspan=4>
                 <font color=black>
-                    <pre><?$row[content]?></pre>
+                    <pre><?=$row['content']?></pre>
                 </font>
             </td>
         </tr>
