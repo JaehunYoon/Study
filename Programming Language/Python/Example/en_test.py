@@ -1,40 +1,35 @@
 import random
 
 words = {
-    'emerge': '나타나다, 출현하다',
-    'possess': '소유하다',
-    'daring': '대담한, 위험한',
-    'voyage': '여행, 여행하다',
-    'demigod': '반신반인',
-    'warrior': '전사',
-    'trickster': '사기꾼',
-    'shape shift': '변신하다, 형태를 바꾸다',
-    'crumble': '빻다, 부수다, 가루로 만들다',
-    'give birth to ~': '낳다',
-    'confront': '직면하다, 마주하다',
-    'sought': 'seek의 과거형',
-    'demon': '악령, 악마',
-    'chase away': '쫓아내다, 뒤쫓다',
-    'drain': '배수시키다, 고갈시키다',
-    'devour': '걸신들린 듯 먹다',
-    'inescapable': '피할 수 없는',
-    'reef': '암초',
-    'restore': '복원하다, 회복시키다',
-    'sacred': '신성한',
-    'chief': '추장, 부족장',
-    'harvest': '수확하다, 수확물',
-    'husk': '껍질을 벗기다',
-    'diseased': '병든',
-    'grove': '숲, 수풀',
-    'suit': '맞다, 알맞다, 적합하다',
-    'lagoon': '석호, 작은 늪',
-    'windward': '바람 불어오는 쪽의',
-    'shallow': '얕은, 얕은 곳',
-    'channel': '해협',
-    'bait': '미끼',
-    'council': '자문 위원회',
-    'endanger': '위험에 빠뜨리다',
-    'be hard on ~': '엄하게 굴다'}
+    'blame': '탓하다',
+    'talk me out of~': '~ 못하게 말리다',
+    'weird': '기묘한, 이상한 (또라이)',
+    'but': '=except (~만 제외하고)',
+    'lurk': '숨다, 잠복하다',
+    'forbid': '금지하다',
+    'journey': '여행, 여정',
+    'bottom': '바닥',
+    'make it': '가다, 해내다',
+    'cavern': '동굴',
+    'should have pp': '~했어야 했는데, ~할 걸',
+    'board': '승선하다, 탑승하다',
+    'armpit': '겨드랑이',
+    'curse': '저주',
+    'blast': '세게 치다, 강타하다',
+    'smite': '세게 치다, 때리다',
+    'homing beacon': '회귀 유도 장치',
+    'beacon': '무선 송신 장치',
+    'curly': '곱슬곱슬한',
+    'take back': '취소하다, 철회하다',
+    'not to mention ~': '~는 말할 것도 없고',
+    'mortal': '죽을 운명의, 인간',
+    'immortal': '불사의, 죽지 않는',
+    'shot': '시도, 한 번 해보기',
+    'bottom feeder': '밑바닥 인생',
+    'wayfinding': '길찾기',
+    'sidekick': '조수, 비서',
+    'current': '흐름, 해류',
+    'disgusting': '역겨운, 징그러운'}
 
 check = True
 count = 0
@@ -65,6 +60,7 @@ while True:
         print(f"아직도 못 맞추셨어요? 단어의 길이는 {len(temp[0])}입니다.")
     if count == 10:
         print(f"안타깝네요.. 정답은 {temp[0]} 였습니다.")
+        words.pop(temp[0])
         check = True
 
     if question == "exit":
