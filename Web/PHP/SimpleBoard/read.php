@@ -11,17 +11,18 @@
     <br>
     <?php
         include "./config.php";
+        include "./func.php";
 
         $id = $_GET[id];
         $no = $_GET[no];
 
-        $result = mysql_query("SELECT * FROM board WHERE id=$id", $conn);
+        $result = mysql_query("SELECT * FROM board WHERE id=$id", $conn) or die(is_null($result));
         $row = mysql_fetch_array($result);
     ?>
     <table width=580 border=0 cellpadding=2 cellspacing=1 bgcolor=#777777>
         <tr>
             <td>
-                <font color=white><b><?=$row['title']?></b></font>
+                <font color=white><b><?=check_null($row['title'])?></b></font>
             </td>
         </tr>
         <tr>
