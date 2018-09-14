@@ -20,5 +20,5 @@
     // 1초 후 list.php 로 리다이렉션
 ?>
 <center>&nbsp;
-    <font size=2>정상적으로 저장되었습니다.</font>
+    <font size=2>Save complete.</font>
 </center>
