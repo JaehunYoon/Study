@@ -1,3 +1,4 @@
+<html lang='ko'>
 <?php
     include "./config.php";
     $id = $_GET[id];
@@ -37,3 +38,4 @@
 <center>&nbsp;
     <font size=2>정상적으로 수정되었습니다.</font>
 </center>
+</html>

@@ -15,14 +15,18 @@
 
         $id = $_GET[id];
         $no = $_GET[no];
-
+        if (!$_GET[id])
+        {
+            die("id 값이 존재하지 않습니다.");
+        }
+        
         $result = mysql_query("SELECT * FROM board WHERE id=$id", $conn) or die(is_null($result));
         $row = mysql_fetch_array($result);
     ?>
     <table width=580 border=0 cellpadding=2 cellspacing=1 bgcolor=#777777>
         <tr>
             <td>
-                <font color=white><b><?=check_null($row['title'])?></b></font>
+                <font color=white><b><?=$row['title']?></b></font>
             </td>
         </tr>
         <tr>
@@ -46,20 +50,20 @@
         </tr>
         <tr>
             <td width=200 height=20 align=left>
-                <a href="list.php?no=<?$no?>">
+                <a href="list.php?no=<?=$no?>">
                     <font color=white>[목록보기]</font>
                 </a>
                 <a href="write.php">
                     <font color=white>[글쓰기]</font>
                 </a>
-                <a href="edit.php?id=<?$id?>">
+                <a href="edit.php?id=<?=$id?>">
                     <font color=white>[수정]</font>
                 </a>
-                <a href="predel.php?id=<?$id?>">
+                <a href="predel.php?id=<?=$id?>">
                     <font color=white>[삭제]</font>
                 </a>
             </td>
-            <td align=left>
+            <td align=right>
             <?php
                 $query = mysql_query("SELECT * FROM board WHERE id > $id LIMIT 1", $conn);
                 $prev_id = mysql_fetch_array($query);
