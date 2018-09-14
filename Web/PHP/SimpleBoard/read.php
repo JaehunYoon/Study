@@ -75,12 +75,12 @@
                             {
                                 echo "
                                 <a href=read.php?id=$prev_id[id]>
-                                    <font color=white>[이전]</font>
+                                    <font color=white>◀</font>
                                 </a>";
                             }
                             else
                             {
-                                echo "[이전]";
+                                echo "◀";
                             }
 
                             $query = mysql_query("SELECT id FROM board WHERE id < $id ORDER BY id DESC LIMIT 1", $conn);
@@ -90,12 +90,12 @@
                             {
                                 echo "
                                 <a href=read.php?id=$next_id[id]>
-                                    <font color=white>[다음]</font>
+                                    <font color=white>▶</font>
                                 </a>";
                             }
                             else
                             {
-                                echo "[다음]";
+                                echo "▶";
                             }
                         ?>
                         </td>

@@ -22,7 +22,7 @@
     {
         echo ("
         <script>
-        alert('비밀번호가 맞지 않습니다.');
+        alert('Wrong password.');
         history.go(-1);
         </script>
         ");
