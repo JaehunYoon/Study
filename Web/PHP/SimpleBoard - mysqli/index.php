@@ -2,7 +2,7 @@
     include "./config.php";
 
     $result = mysqli_query($conn, "SELECT * FROM table_name");
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC)
+//  $row = mysqli_fetch_array($result, MYSQLI_ASSOC)
 //  OR
     $row = mysqli_fetch_assoc($result);
     echo row['id'];
