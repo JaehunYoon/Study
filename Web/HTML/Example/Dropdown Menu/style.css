@@ -3,6 +3,11 @@ h1 {
     text-align: center;
 }
 
+footer {
+    height: 50px;
+    background: blue;
+}
+
 .menubar {
     font: 67.5% "Lucida Sans Unicode", sans-serif;
     font-size: 14px;
@@ -50,7 +55,7 @@ h1 {
     
 .menubar li:hover ul {
     display: block; /* 마우스 커서 올리면 드랍메뉴 보이게 하기 */
-}
+}   
     
 .menubar li li {
     background: rgb(0, 140, 255);
@@ -82,4 +87,4 @@ h1 {
     
 .menubar p {
     clear:left;
-    }
+}
