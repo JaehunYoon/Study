@@ -1,0 +1,27 @@
+<p>time : <span id="time"></span></p>
+<select id="timezone">
+    <option value="Asia/Seoul">asia/seoul</option>
+    <option value="America/New_York">America/New_York</option>
+</select>
+<select id="format">
+    <option value="Y-m-d H:i:s">Y-m-d H:i:s</option>
+    <option value="Y-m-d">Y-m-d</option>
+</select>
+<input type="button" id="execute" value="execute" />
+<script>
+document.querySelector('input').addEventListener('click', function(event)
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', './time2.php');
+    xhr.onreadystatechange = function()
+    {
+        document.querySelector('#time').innerHTML = xhr.responseText;
+    }
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+    var data = '';
+    data += 'timezone='+document.getElementById('timezone').value;
+    data += '&format='+document.getElementById('format').value;
+    xhr.send(data); 
+});
+</script> 
