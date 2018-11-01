@@ -5,6 +5,8 @@ try
     // Create MySQL PDO object
     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
 
+    // PDO 생성자에 첫 번째 인수로 전달된 문자열을 DSM(Data Source Name) 이라 한다.
+
     // Print Error
     $pdo -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     /*
@@ -16,7 +18,7 @@ try
     */
 }
 
-catch (Exception $e)
+catch (PDOException $e)
 {
-    echo $e -> getMessage();
+    echo "Couldn't connect database.." . $e -> getMessage();
 }   
