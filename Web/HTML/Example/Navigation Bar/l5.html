@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
+    <title>l5</title>
+    <style>
+        html {
+            font-family: 'Abel', sans-serif;
+        }
+        body {
+            margin: 0;
+        }
+        .navbar-container {
+            display: flex;
+            position: fixed;
+            /* top: 0; */
+            flex-direction: row;
+            background-color: black;
+            list-style-type: none;
+            width: 100%;
+            margin: 0; padding: 0;
+            margin-bottom: 40px;
+        }
+        
+        .nav-item {
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background-color: slateblue;
+            transition: 0.3s;
+        }
+
+        .nav-item a {
+            text-align: center;
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header><h1>Laravel Markdown Viewer</h1></header>
+    <nav>
+        <ul class="navbar-container">
+            <li class="nav-item"><a href="">One</a></li>
+            <li class="nav-item"><a href="">Two</a></li>
+            <li class="nav-item"><a href="">Three</a></li>
+            <li class="nav-item"><a href="">Four</a></li>
+            <li class="nav-item"><a href="">Five</a></li>
+            <li class="nav-item"><a href="">Six</a></li>
+        </ul>
+    </nav>
+
+    <section>
+        <script>
+            for (var i=0; i<100; i++) {
+                document.write("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>");
+                document.write("Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br>");
+                document.write("Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.<br>");
+                document.write("Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br>");
+            }
+        </script>
+    </section>
+</body>
+</html>
