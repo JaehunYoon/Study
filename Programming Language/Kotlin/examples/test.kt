@@ -1,15 +1,8 @@
 // import java.lang.*
 
 fun main(args: Array<String>) {
-    val javaString: String = "String"
-    val kotlinString: kotlin.String = "String"
+    val a = 1
+    val b = "1"
 
-    println("javaString's type is ${javaString.javaClass.name}")
-    println("kotlinString's type is ${kotlinString.javaClass.name}")
-
-    if (javaString === kotlinString) {
-        println("Same!")
-    } else {
-        println("Different!")
-    }
+    if (a === b) println("ok") else println("nok")
 }
