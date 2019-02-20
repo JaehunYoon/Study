@@ -8,4 +8,4 @@ fun main() {
         println("END")
     }
     lazySeq.take(3).forEach { println(it)}
-}
+}Í
