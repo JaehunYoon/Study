@@ -117,13 +117,28 @@ def show_partition():
                 arr = []
                 offset += 1
                 enter = True
-    # while True:
-    #     with open("bin/ex01.vhd", "rb") as f:
     lba = True
+
     while True:
         with open("bin/ex01.vhd", "rb") as f:
             f.seek(t)
-            text = f.read(size)
+            text = f.read(16)
             string = binascii.b2a_hex(text)
-            # 갈아 엎을 예정
 
+        temp = []
+        lba_address = 0
+        num = 0
+        if lba is True:
+            for i in string:
+                if space:
+                    print(chr(i).upper(), end=" ")
+                    space = False
+                    temp[num] += chr(i).upper()
+                    num += 1
+                elif not space:
+                    print(chr(i).upper(), end="")
+                    space = True
+                    temp.append(chr(i).upper())
+            temp.reverse()
+            lba_address = int(("0x" + "".join(temp[4:8])), 0)
+        exit()
