@@ -118,10 +118,11 @@ def show_partition():
                 offset += 1
                 enter = True
     lba = True
-
+    lba_address = t
     while True:
         with open("bin/ex01.vhd", "rb") as f:
-            f.seek(t)
+            f.seek(lba_address)
+            print(f"lba는 {lba_address}")
             text = f.read(16)
             string = binascii.b2a_hex(text)
 
@@ -131,14 +132,45 @@ def show_partition():
         if lba is True:
             for i in string:
                 if space:
-                    print(chr(i).upper(), end=" ")
                     space = False
                     temp[num] += chr(i).upper()
                     num += 1
                 elif not space:
-                    print(chr(i).upper(), end="")
                     space = True
                     temp.append(chr(i).upper())
             temp.reverse()
             lba_address = int(("0x" + "".join(temp[4:8])), 0)
-        exit()
+            lba = False
+        elif not lba:
+            print(string)
+            # for i in string:
+            #     if enter is True:
+            #         print(f"Partition [{offset}]", end=" ")
+            #         enter = False
+
+            #     if len(temp) == 2:
+            #         temp = []
+
+            #     if space:
+            #         print(chr(i).upper(), end=" ")
+            #         temp.append(chr(i))
+            #         space = False
+            #         cnt += 0.5
+            #     elif not space:
+            #         print(chr(i).upper(), end="")
+            #         temp.append(chr(i))
+            #         space = True
+            #         cnt += 0.5
+
+            #     if cnt % 16 == 0:
+            #         print("", end=" ")
+            #         for c in arr:
+            #             print(c, end="")
+            #         print()
+            #         arr = []
+            #         offset += 1
+            #         enter = True
+            # lba = True
+            print("lba 아님")
+            exit()
+        # exit()
