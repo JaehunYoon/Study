@@ -143,34 +143,6 @@ def show_partition():
             lba = False
         elif not lba:
             print(string)
-            # for i in string:
-            #     if enter is True:
-            #         print(f"Partition [{offset}]", end=" ")
-            #         enter = False
-
-            #     if len(temp) == 2:
-            #         temp = []
-
-            #     if space:
-            #         print(chr(i).upper(), end=" ")
-            #         temp.append(chr(i))
-            #         space = False
-            #         cnt += 0.5
-            #     elif not space:
-            #         print(chr(i).upper(), end="")
-            #         temp.append(chr(i))
-            #         space = True
-            #         cnt += 0.5
-
-            #     if cnt % 16 == 0:
-            #         print("", end=" ")
-            #         for c in arr:
-            #             print(c, end="")
-            #         print()
-            #         arr = []
-            #         offset += 1
-            #         enter = True
-            # lba = True
             print("lba 아님")
             exit()
-        # exit()
+        # 확장 파티션을 나타내는 코드를 작성해야함
