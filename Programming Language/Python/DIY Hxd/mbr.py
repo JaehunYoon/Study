@@ -12,10 +12,13 @@ def show_mbr():
     global file_directory
 
     while True:
-        inp = int(input("입력 : ")) * 512
+        inp = int(input("입력 : "))
+
+        if inp == -1:
+            return
 
         with open(f"bin/{file_directory}", "rb") as f:
-            f.seek(inp)
+            f.seek(inp * 512)
             text = f.read(512)
             string = binascii.b2a_hex(text)
 
