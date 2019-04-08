@@ -35,7 +35,14 @@ for i in range(1, len(string), 2):
 while '' in string:
     string.remove('')
 
-# print(" ".join(string))
-print(string[0:16])
-
 nav_bar()
+
+index = 0
+
+for index in range(0, 512, 16):
+    print(hex(index)[2:].zfill(8).upper(), end="  ")
+    print(" ".join(string[index:index+16]), end=" ")
+    for c in range(16):
+        t = int(string[index + c], 16)
+        print(chr(t) if 32 <= t <= 127 else '.', end="")
+    print()
