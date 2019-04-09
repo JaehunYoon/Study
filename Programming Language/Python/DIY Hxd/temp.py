@@ -37,8 +37,6 @@ while '' in string:
 
 nav_bar()
 
-index = 0
-
 for index in range(0, 512, 16):
     print(hex(index)[2:].zfill(8).upper(), end="  ")
     print(" ".join(string[index:index+16]), end=" ")

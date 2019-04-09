@@ -8,6 +8,15 @@ def set_file(open_directory):
     file_directory = open_directory
 
 
+def nav_bar():
+    print("offset(h)", end=" ")
+    for i in range(16):
+        print(f"{hex(i)[2:].zfill(2).upper()}", end=" ")
+    print()
+    print("=" * 75, end='')
+    print()
+
+
 def show_mbr():
     global file_directory
 
@@ -18,59 +27,27 @@ def show_mbr():
             return
 
         with open(f"bin/{file_directory}", "rb") as f:
-            f.seek(inp * 512)
+            inp *= 512
+            f.seek(inp)
             text = f.read(512)
-            string = binascii.b2a_hex(text)
+            string = list(binascii.b2a_hex(text).upper().decode())
 
-        # 상단 바
-        print("offset(h)", end=" ")
-        for i in range(16):
-            print(f"{hex(i)[2:].zfill(2).upper()}", end=" ")
-        print()
-        print("=" * 75, end="")
-        print()
+        for i in range(1, len(string), 2):
+            string[i-1] += string[i]
+            string[i] = ''
+        
+        while '' in string:
+            string.remove('')
 
-        cnt = 0
-        offset = 0
-        temp = []
-        arr = []
-        space = False
-        enter = True
+        nav_bar()
 
-        for i in string:
-            if enter is True:
-                print(hex(offset)[2:].zfill(8).upper(), end="  ")
-                enter = False
-
-            if len(temp) == 2:
-                temp = []
-
-            if space:
-                print(chr(i).upper(), end=" ")
-                temp.append(chr(i))
-                space = False
-                cnt += 0.5
-            elif not space:
-                print(chr(i).upper(), end="")
-                temp.append(chr(i))
-                space = True
-                cnt += 0.5
-
-            if cnt % 16 == 0:
-                print("", end=" ")
-                for c in arr:
-                    print(c, end="")
-                print()
-                arr = []
-                offset += 16
-                enter = True
-
-            if cnt % 1 == 0:
-                t = int("0x" + "".join(temp), 0)
-                if 15 <= t <= 127:
-                    arr.append(chr(t))
-                else:
-                    arr.append('.')
+        for index in range(0, 512, 16):
+            print(hex(index)[2:].zfill(8).upper(), end="  ")
+            print(" ".join(string[index:index+16]), end=" ")
+            for c in range(16):
+                t = int(string[index + c], 16)
+                print(chr(t) if 32 <= t <= 127 else '.', end="")
+            print()
 
 
 def show_partition():
