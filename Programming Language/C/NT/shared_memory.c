@@ -36,6 +36,11 @@ int main(int argc, char **argv) {
 
     for (;;) {
         local num = 0;
-        
+        fp = popen("ps axh", "r");
+        if (fp != NULL) {
+            while(fgets(buff, 1024, fp)) {
+                local_num++;
+            }
+        }
     }
 }
