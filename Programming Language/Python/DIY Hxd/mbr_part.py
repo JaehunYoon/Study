@@ -107,7 +107,10 @@ def print_part_info(part_arr, lba_addr=None):
     temp = part_arr[8:12]
     temp.reverse()
     if lba_addr is not None:
-        print(f"LBA Start    {str(lba_addr + int(''.join(temp), 16))}")
+        print(f"LBA Start    {lba_addr + int(''.join(temp), 16)}")
     else:
-        print(f"LBA Start    {str(int(''.join(temp), 16))}")
+        print(f"LBA Start    {int(''.join(temp), 16)}")
+    temp = part_arr[12:16]
+    temp.reverse()
+    print(f"size         {int(''.join(temp), 16) * 512 // 1024 // 1024} Mbyte")
     print()
