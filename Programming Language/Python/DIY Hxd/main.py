@@ -1,6 +1,7 @@
 import binascii
 
-from mbr import *
+import mbr
+import mbr_part
 
 FILE_OPEN = False
 
@@ -8,7 +9,7 @@ FILE_OPEN = False
 def open_file():
     global FILE_OPEN
     location = input("파일 경로 입력 > ")
-    set_file(location)
+    mbr.set_file(location)
     FILE_OPEN = True
 
 while True:
@@ -24,8 +25,8 @@ while True:
     elif select == 2:
         if not FILE_OPEN:
             open_file()
-        show_mbr()
+        mbr.show_mbr()
     elif select == 3:
-        show_partition()
+        mbr_part.show_partition()
     elif select == 0:
         exit()
