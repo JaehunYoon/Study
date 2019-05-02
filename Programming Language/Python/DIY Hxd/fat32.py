@@ -52,23 +52,22 @@ def print_fat():
                 if lba_addr != 1259648:
                     lba_addr += 1259648
                 break
-            elif string[ext_index+4] != '05' and string[ext_index+20] != '00':
-                # print_part(string, ext_index, part_num)
-                part_num += 1
-                # part_info(string, part_num, lba_addr)
+            # elif string[ext_index+4] != '05' and string[ext_index+20] != '00':
+            elif string[ext_index+4] == '05' or string[ext_index+20] == '00':
+                loop = False
+            else:
                 if string[ext_index+4] == '0C' or string[ext_index+20] == '0C':
                     print(f"Partition [{part_num}]-------------------------")
-                    print()
-                    print_part(string, ext_index, part_num)
                     temp = string[ext_index+8:ext_index+12]
-                    # lba = lba_addr + int(''.join(string[0:16]), 16)
+                    temp.reverse()
+                    if part_num == 4:
+                        lba = int(''.join(temp), 16)
+                    else:
+                        lba = lba_addr + int(''.join(temp), 16)
                     print(string[ext_index+4], lba)
                     fat_partition(lba)
-            elif string[ext_index+4] == '05' or string[ext_index+20] == '00':
-                # print_part(string, ext_index, part_num)
-                # part_info(string, part_num, lba_addr)
-                print()
-                loop = False
+                    print()
+                part_num += 1
             ext_index += 16
 
 
@@ -81,8 +80,5 @@ def fat_partition(lba_addr):
         f.seek(lba_addr * 512)
         text = f.read(90)
         string = list(binascii.b2a_hex(text).upper().decode())
-    
+
     print(string)
-    # if partition type == "0C":
-    #     f.seek(lba_addr * 512)
-    #     f.read(90)
