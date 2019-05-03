@@ -52,7 +52,6 @@ def print_fat():
                 if lba_addr != 1259648:
                     lba_addr += 1259648
                 break
-            # elif string[ext_index+4] != '05' and string[ext_index+20] != '00':
             elif string[ext_index+4] == '05' or string[ext_index+20] == '00':
                 loop = False
             else:
