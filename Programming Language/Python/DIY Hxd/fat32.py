@@ -1,6 +1,6 @@
 import mbr_part
 import binascii
-from mbr_part import *
+from mbr_part import open_file
 
 
 def print_fat():
@@ -69,10 +69,6 @@ def print_fat():
                     print()
                 part_num += 1
             ext_index += 16
-
-
-def temp():
-    print()
 
 
 def fat_partition(lba_addr):
