@@ -77,3 +77,9 @@ def fat_partition(lba_addr):
         string = list(binascii.b2a_hex(text).upper().decode())
 
     print(string)
+
+    # 11-12 : Bytes per sector
+    # 13-13 : Sectors per cluster
+    # 14-15 : Reserved sector count
+    # 19-20 : Total sector 16 (FAT12/16=variable, FAT32=0)
+    # 22-23 : FAT size 16 (FAT12/16=variable, FAT32=0)
