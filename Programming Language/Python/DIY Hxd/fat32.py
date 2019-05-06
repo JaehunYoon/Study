@@ -17,12 +17,13 @@ def print_fat():
 
     for index in range(0, 32, 16):
         if string[index+4] == '0C':
-            print(f"Partition [{part_num}]-------------------------")
+            print(f"Partition [{part_num}]-------------------------\n")
             temp = string[index+8:index+12]
             temp.reverse()
             lba = int("".join(temp), 16)
-            print(string[index+4], lba)
+            # print(string[index+4], lba)
             fat_partition(lba)
+            print()
             index += 16
         part_num += 1
 
@@ -56,14 +57,14 @@ def print_fat():
                 loop = False
             else:
                 if string[ext_index+4] == '0C' or string[ext_index+20] == '0C':
-                    print(f"Partition [{part_num}]-------------------------")
+                    print(f"Partition [{part_num}]-------------------------\n")
                     temp = string[ext_index+8:ext_index+12]
                     temp.reverse()
                     if part_num == 4:
                         lba = int(''.join(temp), 16)
                     else:
                         lba = lba_addr + int(''.join(temp), 16)
-                    print(string[ext_index+4], lba)
+                    # print(string[ext_index+4], lba)
                     fat_partition(lba)
                     print()
                 part_num += 1
@@ -76,10 +77,21 @@ def fat_partition(lba_addr):
         text = f.read(90)
         string = list(binascii.b2a_hex(text).upper().decode())
 
-    print(string)
+    for i in range(1, len(string), 2):
+        string[i-1] += string[i]
+        string[i] = ''
+
+    while '' in string:
+        string.remove('')
+
+    print("Bytes Per Sector        " + str(int("".join(string[12:10:-1]), 16)))
+    print("Sectors Per Cluster     " + str(int("".join(string[13]), 16)))
+    print("Reserved Sector Count   " + str(int("".join(string[15:13:-1]), 16)))
+    print("Total Sector FAT32      " + str(int("".join(string[35:31:-1]), 16)))
+    print("FAT Size 32             " + str(int("".join(string[39:35:-1]), 16)))
 
     # 11-12 : Bytes per sector
     # 13-13 : Sectors per cluster
     # 14-15 : Reserved sector count
-    # 19-20 : Total sector 16 (FAT12/16=variable, FAT32=0)
-    # 22-23 : FAT size 16 (FAT12/16=variable, FAT32=0)
+    # 32-35 : Total sector FAT32
+    # 36-39 : FAT size 32
