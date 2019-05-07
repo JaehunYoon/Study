@@ -21,7 +21,6 @@ def print_fat():
             temp = string[index+8:index+12]
             temp.reverse()
             lba = int("".join(temp), 16)
-            # print(string[index+4], lba)
             fat_partition(lba)
             print()
             index += 16
@@ -64,7 +63,6 @@ def print_fat():
                         lba = int(''.join(temp), 16)
                     else:
                         lba = lba_addr + int(''.join(temp), 16)
-                    # print(string[ext_index+4], lba)
                     fat_partition(lba)
                     print()
                 part_num += 1
