@@ -59,10 +59,7 @@ def print_fat():
                     print(f"Partition [{part_num}]-------------------------\n")
                     temp = string[ext_index+8:ext_index+12]
                     temp.reverse()
-                    if part_num == 4:
-                        lba = int(''.join(temp), 16)
-                    else:
-                        lba = lba_addr + int(''.join(temp), 16)
+                    lba = lba_addr + int(''.join(temp), 16)
                     fat_partition(lba)
                     print()
                 part_num += 1
@@ -82,14 +79,27 @@ def fat_partition(lba_addr):
     while '' in string:
         string.remove('')
 
-    print("Bytes Per Sector        " + str(int("".join(string[12:10:-1]), 16)))
-    print("Sectors Per Cluster     " + str(int("".join(string[13]), 16)))
-    print("Reserved Sector Count   " + str(int("".join(string[15:13:-1]), 16)))
-    print("Total Sector FAT32      " + str(int("".join(string[35:31:-1]), 16)))
-    print("FAT Size 32             " + str(int("".join(string[39:35:-1]), 16)))
+    reserved_sector_count = int("".join(string[15:13:-1]), 16)
+    fat_size_32 = int("".join(string[39:35:-1]), 16)
+
+    print("Bytes Per Sector              " + str(int("".join(string[12:10:-1]), 16)))
+    print("Sectors Per Cluster           " + str(int("".join(string[13]), 16)))
+    print("Reserved Sector Count         " + str(reserved_sector_count))
+    print("Total Sector FAT32            " + str(int("".join(string[35:31:-1]), 16)))
+    print("FAT Size 32                   " + str(fat_size_32))
+
+    print("VBR start               " + str(lba_addr))
+    print("FAT#1 start             " + str(lba_addr + reserved_sector_count))
+    print("FAT#2 start             " + str(lba_addr + reserved_sector_count + fat_size_32))
+    print("Root Directory start    " + str(lba_addr + reserved_sector_count + fat_size_32 * 2))
 
     # 11-12 : Bytes per sector
     # 13-13 : Sectors per cluster
     # 14-15 : Reserved sector count
     # 32-35 : Total sector FAT32
     # 36-39 : FAT size 32
+
+    # VBR Start : lba_addr
+    # FAT#1 Start : lba_addr + Reserved Sector Count
+    # FAT#2 Start : FAT#1 Start + FAT size 32
+    # Root Directory Start : FAT#2 Start + FAT size 32
