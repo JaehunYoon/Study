@@ -1,12 +1,7 @@
 import binascii
 
 
-def open_file(lba_addr):
-    with open("bin/ex01.vhd", "rb") as f:
-        f.seek(lba_addr * 512 + 446)
-        text = f.read(32)
-        string = list(binascii.b2a_hex(text).upper().decode())
-
+def comb(string):
     for i in range(1, len(string), 2):
         string[i-1] += string[i]
         string[i] = ''
@@ -15,6 +10,15 @@ def open_file(lba_addr):
         string.remove('')
 
     return string
+
+
+def open_file(lba_addr):
+    with open("bin/ex01.vhd", "rb") as f:
+        f.seek(lba_addr * 512 + 446)
+        text = f.read(32)
+        string = list(binascii.b2a_hex(text).upper().decode())
+
+    return comb(string)
 
 
 def print_part(string, index, part_num):
@@ -46,12 +50,7 @@ def show_partition():
                 text = f.read(32)
                 string = list(binascii.b2a_hex(text).upper().decode())
 
-            for i in range(1, len(string), 2):
-                string[i-1] += string[i]
-                string[i] = ''
-
-            while '' in string:
-                string.remove('')
+            comb(string)
             index = 9999
         else:
             string = open_file(lba_addr)
