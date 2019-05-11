@@ -1,6 +1,5 @@
 import mbr_part
 import binascii
-from mbr_part import open_file, comb
 
 
 def print_fat():
@@ -34,10 +33,10 @@ def print_fat():
                 text = f.read(32)
                 string = list(binascii.b2a_hex(text).upper().decode())
 
-            comb(string)
+            mbr_part.comb(string)
             index = 9999
         else:
-            string = open_file(lba_addr)
+            string = mbr_part.open_file(lba_addr)
 
         while string[ext_index+4] != '00':
             if string[ext_index+4] == '05':
@@ -67,7 +66,7 @@ def fat_partition(lba_addr):
         text = f.read(90)
         string = list(binascii.b2a_hex(text).upper().decode())
 
-    comb(string)
+    mbr_part.comb(string)
 
     reserved_sector_count = int("".join(string[15:13:-1]), 16)
     fat_size_32 = int("".join(string[39:35:-1]), 16)

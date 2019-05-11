@@ -1,5 +1,5 @@
 import binascii
-from mbr_part import comb
+import mbr_part
 
 
 file_directory = ""
@@ -34,7 +34,7 @@ def show_mbr():
             text = f.read(512)
             string = list(binascii.b2a_hex(text).upper().decode())
 
-        comb(string)
+        mbr_part.comb(string)
 
         nav_bar()
 
