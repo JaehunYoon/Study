@@ -1,4 +1,6 @@
 import binascii
+import mbr_part
+
 
 file_directory = ""
 
@@ -32,12 +34,7 @@ def show_mbr():
             text = f.read(512)
             string = list(binascii.b2a_hex(text).upper().decode())
 
-        for i in range(1, len(string), 2):
-            string[i-1] += string[i]
-            string[i] = ''
-
-        while '' in string:
-            string.remove('')
+        mbr_part.comb(string)
 
         nav_bar()
 
