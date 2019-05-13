@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Axios Example</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <p id="test">아무고토 없어욘</p>
+    <button onclick="getSchedules();">Go</button>
+    <button onclick="printTest();">GoGo</button>
+    <script>
+        function getSchedules() {
+            axios.get("http://localhost:8080/api/schedules/3/4")
+            .then(res => {
+                let temp = document.getElementById("test");
+                temp.innerHTML = res.data
+            })
+            // axios.get("http://localhost:8080/api/schedules/3/4")
+            // .then(res => console.log(res))
+        }
+        function printTest() {
+            alert("Hello World!");
+        }
+    </script>
+</body>
+</html>
