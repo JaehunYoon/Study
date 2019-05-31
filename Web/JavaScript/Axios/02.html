@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Axios Test</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        th, td {
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <input id="grades" type="text"><span>학년</span>
+    <input id="classes" type="text"><span>반</span>
+    <button onclick="getSchedules()">조회</button>
+    <table style="border: 1px solid black;">
+        <tr>
+            <th>&nbsp;</th>
+            <th>월</th>
+            <th>화</th>
+            <th>수</th>
+            <th>목</th>
+            <th>금</th>
+        </tr>
+        <tr>
+            <th>1</th>
+            <td id="mon1"></td>
+            <td id="tue1"></td>
+            <td id="wed1"></td>
+            <td id="thu1"></td>
+            <td id="fri1"></td>
+        </tr>
+        <tr>
+            <th>2</th>
+            <td id="mon2"></td>
+            <td id="tue2"></td>
+            <td id="wed2"></td>
+            <td id="thu2"></td>
+            <td id="fri2"></td>
+        </tr>
+        <tr>
+            <th>3</th>
+            <td id="mon3"></td>
+            <td id="tue3"></td>
+            <td id="wed3"></td>
+            <td id="thu3"></td>
+            <td id="fri3"></td>
+        </tr>
+        <tr>
+            <th>4</th>
+            <td id="mon4"></td>
+            <td id="tue4"></td>
+            <td id="wed4"></td>
+            <td id="thu4"></td>
+            <td id="fri4"></td>
+        </tr>
+        <tr>
+            <th>5</th>
+            <td id="mon5"></td>
+            <td id="tue5"></td>
+            <td id="wed5"></td>
+            <td id="thu5"></td>
+            <td id="fri5"></td>
+        </tr>
+        <tr>
+            <th>6</th>
+            <td id="mon6"></td>
+            <td id="tue6"></td>
+            <td id="wed6"></td>
+            <td id="thu6"></td>
+            <td id="fri6"></td>
+        </tr>
+        <tr>
+            <th>7</th>
+            <td id="mon7"></td>
+            <td id="tue7"></td>
+            <td id="wed7"></td>
+            <td id="thu7"></td>
+            <td id="fri7"></td>
+        </tr>
+    </table>
+    <script>
+        function getSchedules() {
+            axios.get(`http://localhost:8080/api/schedules/${document.getElementById("grades").value}/${document.getElementById("classes").value}`)
+            .then(res => {
+                    let weekdays = ["mon", "tue", "wed", "thu", "fri"];
+                    let cnt = 0;
+                    weekdays.forEach(function (item, index, array) {
+                        for (let i = 0; i < 7; i++) {
+                            console.log(item, i + 1);
+                            let temp = document.getElementById(`${item}${i+1}`);
+                            temp.innerHTML = res.data[cnt].name + "<br>" + res.data[cnt].teacher;
+                            cnt++;
+                        }
+                    }
+                );
+            })
+        }
+    </script>
+</body>
+</html>
