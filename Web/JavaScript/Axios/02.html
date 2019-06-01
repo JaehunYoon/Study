@@ -14,9 +14,9 @@
     </style>
 </head>
 <body>
-    <input id="grades" type="text"><span>학년</span>
-    <input id="classes" type="text"><span>반</span>
-    <button onclick="getSchedules()">조회</button>
+    <input id="grades" type="text" onkeyup="enterkey();"><span>학년</span>
+    <input id="classes" type="text" onkeyup="enterkey();"><span>반</span>
+    <button onclick="getSchedules();">조회</button>
     <table style="border: 1px solid black;">
         <tr>
             <th>&nbsp;</th>
@@ -84,6 +84,12 @@
         </tr>
     </table>
     <script>
+        function enterkey() {
+            if (window.event.keyCode == 13) {
+                getSchedules();
+            }
+        }
+
         function getSchedules() {
             axios.get(`http://localhost:8080/api/schedules/${document.getElementById("grades").value}/${document.getElementById("classes").value}`)
             .then(res => {
