@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Get Current Time</title>
+</head>
+<body>
+    <select name="times" id="times">
+    </select>
+    
+    <script>
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = new String(date.getMonth());
+        let day = new String(date.getDay());
+
+        if (month.length == 1) {
+            month = "0" + month;
+        }
+
+        if (day.length == 1) {
+            day = "0" + day;
+        }
+        let temp = year + '-' + month + '-' + day;
+        let times = document.getElementById("times");
+        times.innerHTML += `<option value="${temp}">${temp}</option>`;
+    </script>
+</body>
+</html>
