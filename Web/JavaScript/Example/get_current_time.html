@@ -11,21 +11,26 @@
     </select>
     
     <script>
-        let date = new Date();
-        let year = date.getFullYear();
-        let month = new String(date.getMonth());
-        let day = new String(date.getDay());
-
-        if (month.length == 1) {
-            month = "0" + month;
+        function zeroFill(target) {
+            if (target.length == 1) {
+                return "0" + target;
+            } else {
+                return target;
+            }
         }
 
-        if (day.length == 1) {
-            day = "0" + day;
-        }
-        let temp = year + '-' + month + '-' + day;
-        let times = document.getElementById("times");
-        times.innerHTML += `<option value="${temp}">${temp}</option>`;
+        let curr = new Date();
+        let first = curr.getDate() - curr.getDay() + 1;
+        let last = first + 4;
+
+        let firstday = new Date(curr.setDate(first));
+        let lastday = new Date(curr.setDate(last));
+        
+        let f = firstday.getFullYear() + '-' + zeroFill(String(firstday.getMonth() + 1)) + '-' + zeroFill(String(firstday.getDate()));
+        let l = lastday.getFullYear() + '-' + zeroFill(String(lastday.getMonth() + 1)) + '-' + zeroFill(String(lastday.getDate()));
+    
+        let temp = document.getElementById("times")
+        temp.innerHTML += `<option>${f + " ~ " + l}</option>`
     </script>
 </body>
 </html>
