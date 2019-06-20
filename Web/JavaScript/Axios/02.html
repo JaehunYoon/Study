@@ -10,6 +10,8 @@
         th, td {
             border: 1px solid black;
             text-align: center;
+            width: 50px;
+            height: 50px;
         }
     </style>
 </head>
@@ -84,6 +86,8 @@
         </tr>
     </table>
     <script>
+        let weekdays = ["mon", "tue", "wed", "thu", "fri"];
+        
         function enterkey() {
             if (window.event.keyCode == 13) {
                 getSchedules();
@@ -91,9 +95,9 @@
         }
 
         function getSchedules() {
+            clearSchedules();
             axios.get(`http://localhost:8080/api/schedules/${document.getElementById("grades").value}/${document.getElementById("classes").value}`)
             .then(res => {
-                    let weekdays = ["mon", "tue", "wed", "thu", "fri"];
                     let cnt = 0;
                     weekdays.forEach(function (item, index, array) {
                         for (let i = 0; i < 7; i++) {
@@ -104,6 +108,15 @@
                         }
                     }
                 );
+            })
+        }
+
+        function clearSchedules() {
+            weekdays.forEach(function (item, index, array) {
+                for (let i = 1; i <= 7; i++) {
+                    let temp = document.getElementById(`${item}${i}`)
+                    temp.innerHTML = "";
+                }
             })
         }
     </script>
