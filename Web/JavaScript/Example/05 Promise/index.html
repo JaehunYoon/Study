@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Promise</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <script>
+        function getData() {
+            return new Promise((resolve, reject) => {
+                $.get("http://localhost:8080/api/todos", function (res) {
+                    if (res) {
+                        resolve(res);
+                    }
+                    reject(new Error("Request is failed"));
+                })
+            })
+        }    
+
+        getData().then(data => {
+            console.log(data);
+        }).catch(err => {
+            console.error(err);
+        })
+    </script>
+</body>
+</html>
