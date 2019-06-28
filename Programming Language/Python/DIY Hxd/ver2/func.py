@@ -59,7 +59,6 @@ class ShowMbrSector(Func):
 class ShowPartition(Func):
     part_num = 0
     index = 0
-    ext_index = 0
     lba_addr = 0
     extend = False
 
@@ -108,11 +107,7 @@ class ShowPartition(Func):
                 self.detail(string, self.lba_addr)
                 self.lba_addr = lba
 
-    def print_part(self, part_arr, ext=False):
-        if ext:
-            i = self.ext_index
-        else:
-            i = self.index
+    def print_part(self, part_arr):
         print(f"Partition [{self.part_num}]", end=" ")
         print(" ".join(part_arr), end=" ")
         print()
@@ -140,3 +135,87 @@ class ShowPartition(Func):
         print(f"size         {int(''.join(temp), 16) * 512 // 1024 // 1024} Mbyte")
         print()
 
+
+class ShowFat32Info(Func):
+    part_num = 0
+    index = 0
+    lba_addr = 0
+    extend = False
+
+    def __init__(self, new_dir):
+        super(ShowFat32Info, self).__init__(new_dir)
+        self.read_range = 16
+
+    def show(self):
+        print("\nFAT32 정보\n")
+
+        while True:
+            if not self.extend:
+                string = self.get(446 + self.index)
+                if string[4] == "05":
+                    self.extend = True
+                    temp = string[8:12]
+                    temp.reverse()
+                    self.lba_addr = int("".join(temp), 16)
+                    self.read_range = 32
+                    continue
+                elif string[4] == "00":
+                    return
+            else:
+                string = self.get(self.lba_addr * 512 + 446)
+                ext_arr = string[16:]
+                string = string[:16]
+                if ext_arr[4] == "05":
+                    temp = ext_arr[8:12]
+                    temp.reverse()
+                    lba = int("".join(temp), 16)
+                    if lba != 1259648:
+                        lba += 1259648
+                elif ext_arr[4] == "0C":
+                    temp = string[8:12]
+                    temp.reverse()
+                    self.part_num += 1
+                    self.detail(self.lba_addr + int(''.join(temp), 16))
+                    return
+                else:
+                    return
+
+            self.part_num += 1
+            self.index += 16
+            if string[4] == "0C":
+                temp = string[8:12]
+                temp.reverse()
+                self.detail(self.lba_addr + int(''.join(temp), 16))
+            if self.extend:
+                self.lba_addr = lba
+
+    def detail(self, lba):
+        self.read_range = 90
+        print(f"Partition [{self.part_num}]-------------------------\n")
+        string = self.get(lba * 512)
+
+        reserved_sector_count = int("".join(string[15:13:-1]), 16)
+        fat_size_32 = int("".join(string[39:35:-1]), 16)
+
+        print("Bytes Per Sector              " + str(int("".join(string[12:10:-1]), 16)))
+        print("Sectors Per Cluster           " + str(int("".join(string[13]), 16)))
+        print("Reserved Sector Count         " + str(reserved_sector_count))
+        print("Total Sector FAT32            " + str(int("".join(string[35:31:-1]), 16)))
+        print("FAT Size 32                   " + str(fat_size_32))
+
+        print("VBR start               " + str(lba))
+        print("FAT#1 start             " + str(lba + reserved_sector_count))
+        print("FAT#2 start             " + str(lba + reserved_sector_count + fat_size_32))
+        print("Root Directory start    " + str(lba + reserved_sector_count + fat_size_32 * 2))
+        print()
+
+        # 11-12 : Bytes per sector
+        # 13-13 : Sectors per cluster
+        # 14-15 : Reserved sector count
+        # 32-35 : Total sector FAT32
+        # 36-39 : FAT size 32
+
+        # VBR Start : lba_addr
+        # FAT#1 Start : lba_addr + Reserved Sector Count
+        # FAT#2 Start : FAT#1 Start + FAT size 32
+        # Root Directory Start : FAT#2 Start + FAT size 32

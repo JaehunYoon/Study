@@ -38,7 +38,10 @@ while True:
             ShowPartition(location).show()
     elif select == 4:
         # FAT32 정보를 조회하는 함수
-        print("4")
+        if not FILE_OPEN:
+            ShowFat32Info(open_file()).show()
+        else:
+            ShowFat32Info(location).show()
     elif select == 5:
         # 루트 디렉토리의 파일 정보를 조회하는 함수
         print("5")
