@@ -1,5 +1,3 @@
-# -*-coding:utf-8-*-
-
 from binascii import b2a_hex
 
 
@@ -303,15 +301,40 @@ class ShowFilesInfo(Func):
             elif attr == "08":
                 print("Volume Label")
                 print(f"      Volume name : {self.get_name(temp[:11])}")
-                print(f"      Last Written Date : {self.get_last_written_date(temp[25:23:-1])}")
-                print(f"      Lst Written Time : {self.get_last_written_time(temp[23:21:-1])}")
-            elif attr == "10":
+                print(f"      Last Written Date : {self.get_date(temp[25:23:-1])}")
+                print(f"      Lst Written Time : {self.get_time(temp[23:21:-1])}")
+            elif int("0x20", 16) > int(''.join(attr), 16) >= int("0x10", 16):
                 print("Directory")
-            elif attr == "20":
-                print("Archive")
+                print(f"      name : {self.get_name(temp[:8]) + '.' + self.get_name(temp[8:11])}")
+                print(f"      Create Date : {self.get_date(temp[17:15:-1])}")
+                print(f"      Create Time : {self.get_time(temp[15:13:-1])}")
+                print(f"      Last Written Date : {self.get_date(temp[25:23:-1])}")
+                print(f"      Last Written Time : {self.get_time(temp[23:21:-1])}")
+                print(f"      Last Accessed Date : {self.get_date(temp[19:17:-1])}")
+                print(f"      Size : {self.get_size(temp[:27:-1])}")
+            elif int("0x30", 16) > int(''.join(attr), 16) >= int("0x20", 16):
+                if temp[0] == "E5":
+                    print("Deleted Archive")
+                    try:
+                        print(f"      name : {self.get_name(temp[:8]) + '.' + self.get_name(temp[8:11])}")
+                    except:
+                        print(f"      name : {self.get_name(temp[1:8]) + '.' + self.get_name(temp[8:11])}")
+                else:
+                    print("Archive")
+                    print(f"      name : {self.get_name(temp[:8]) + '.' + self.get_name(temp[8:11])}")
+                print(f"      Create Date : {self.get_date(temp[17:15:-1])}")
+                print(f"      Create Time : {self.get_time(temp[15:13:-1])}")
+                print(f"      Last Written Date : {self.get_date(temp[25:23:-1])}")
+                print(f"      Last Written Time : {self.get_time(temp[23:21:-1])}")
+                print(f"      Last Accessed Date : {self.get_date(temp[19:17:-1])}")
+                print(f"      Size : {self.get_size(temp[:27:-1])}")
+
             elif attr == "0F":
+                if temp[0] == "E5":
+                    print("Deleted ", end="")
                 print("Long File Name")
 
+        print()
         self.read_range = 16
 
     def get_name(self, data):
@@ -320,7 +343,7 @@ class ShowFilesInfo(Func):
             result.append(int(''.join(data[i]), 16))
         return result.decode("cp949")
 
-    def get_last_written_date(self, data):
+    def get_date(self, data):
         result = ""
         binary = bin(int(''.join(data), 16))[2:].zfill(16)
         result += str(1980 + int(binary[:7], 2)) + "년 "
@@ -328,10 +351,13 @@ class ShowFilesInfo(Func):
         result += str(int(binary[11:], 2)) + "일"
         return result
 
-    def get_last_written_time(self, data):
+    def get_time(self, data):
         result = ""
         binary = bin(int(''.join(data), 16))[2:].zfill(16)
         result += str(int(binary[:5], 2)).zfill(2) + "시 "
         result += str(int(binary[5:11], 2)).zfill(2) + "분 "
         result += str(int(binary[11:], 2) * 2).zfill(2) + "초"
         return result
+
+    def get_size(self, data):
+        return str(int(''.join(data), 16))
