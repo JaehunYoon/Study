@@ -25,15 +25,15 @@ while True:
     if select == 1:
         location = open_file()
     elif select == 2:
+        # 섹터 정보를 조회하는 함수
         if not FILE_OPEN:  # 파일 경로가 지정되지 않은 상태일 경우 파일 열기를 선행으로 수행
             ShowMbrSector(open_file()).show()
-        # 섹터 정보를 조회하는 함수
         else:
             ShowMbrSector(location).show()
     elif select == 3:
+        # 파티션 정보를 조회하는 함수
         if not FILE_OPEN:
             ShowPartition(open_file()).show()
-        # 파티션 정보를 조회하는 함수
         else:
             ShowPartition(location).show()
     elif select == 4:
@@ -44,6 +44,9 @@ while True:
             ShowFat32Info(location).show()
     elif select == 5:
         # 루트 디렉토리의 파일 정보를 조회하는 함수
-        print("5")
+        if not FILE_OPEN:
+            ShowFilesInfo(open_file()).show()
+        else:
+            ShowFilesInfo(location).show()
     elif select == 0:
         exit()

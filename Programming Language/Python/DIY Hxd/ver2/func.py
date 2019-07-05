@@ -219,3 +219,100 @@ class ShowFat32Info(Func):
         # FAT#1 Start : lba_addr + Reserved Sector Count
         # FAT#2 Start : FAT#1 Start + FAT size 32
         # Root Directory Start : FAT#2 Start + FAT size 32
+
+
+class ShowFilesInfo(Func):
+    part_num = 0
+    index = 0
+    lba_addr = 0
+    extend = False
+
+    def __init__(self, new_dir):
+        super(ShowFilesInfo, self).__init__(new_dir)
+        self.read_range = 16
+
+    def show(self):
+        while True:
+            if not self.extend:
+                string = self.get(446 + self.index)
+                if string[4] == "05":
+                    self.extend = True
+                    temp = string[8:12]
+                    temp.reverse()
+                    self.lba_addr = int("".join(temp), 16)
+                    self.read_range = 32
+                    continue
+                elif string[4] == "00":
+                    return
+            else:
+                string = self.get(self.lba_addr * 512 + 446)
+                ext_arr = string[16:]
+                string = string[:16]
+                if ext_arr[4] == "05":
+                    temp = ext_arr[8:12]
+                    temp.reverse()
+                    lba = int("".join(temp), 16)
+                    if lba != 1259648:
+                        lba += 1259648
+                elif ext_arr[4] == "0C":
+                    temp = string[8:12]
+                    temp.reverse()
+                    self.part_num += 1
+                    self.detail(self.lba_addr + int(''.join(temp), 16))
+                    return
+                else:
+                    return
+
+            self.part_num += 1
+            self.index += 16
+            if string[4] == "0C":
+                temp = string[8:12]
+                temp.reverse()
+                self.detail(self.lba_addr + int(''.join(temp), 16))
+            if self.extend:
+                self.lba_addr = lba
+
+    def detail(self, lba):
+        self.read_range = 90
+        string = self.get(lba * 512)
+        reserved_sector_count = int("".join(string[15:13:-1]), 16)
+        fat_size_32 = int("".join(string[39:35:-1]), 16)
+
+        root_directory_start = lba + reserved_sector_count + fat_size_32 * 2
+
+        self.root_dir(root_directory_start)
+
+    def root_dir(self, sector):
+        self.read_range = 512
+        print()
+        print(f"파일 정보(Root Dir 섹터번호:{sector})")
+        print()
+        string = self.get(sector * 512)
+        t = 0
+        for i in range(16):
+            temp = string[i*32:i*32+32]
+            attr = temp[11]
+            if attr == "01":
+                print("Read Only")
+            elif attr == "02":
+                print("Hidden File")
+            elif attr == "04":
+                print("System File")
+            elif attr == "08":
+                print("Volume Label")
+                print(f"      Volume name : {self.get_name(temp[:8])}")
+
+            elif attr == "10":
+                print("Directory")
+            elif attr == "20":
+                print("Archive")
+            elif attr == "0F":
+                print("Long File Name")
+
+        self.read_range = 16
+
+    def get_name(self, data):
+        result = ""
+        for i in range(8):
+            result += chr(int("0x" + data[i], 16))
+        return result
