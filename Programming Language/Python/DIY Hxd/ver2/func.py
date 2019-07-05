@@ -1,3 +1,5 @@
+# -*-coding:utf-8-*-
+
 from binascii import b2a_hex
 
 
@@ -300,8 +302,9 @@ class ShowFilesInfo(Func):
                 print("System File")
             elif attr == "08":
                 print("Volume Label")
-                print(f"      Volume name : {self.get_name(temp[:8])}")
-
+                print(f"      Volume name : {self.get_name(temp[:11])}")
+                print(f"      Last Written Date : {self.get_last_written_date(temp[25:23:-1])}")
+                print(f"      Lst Written Time : {self.get_last_written_time(temp[23:21:-1])}")
             elif attr == "10":
                 print("Directory")
             elif attr == "20":
@@ -312,7 +315,23 @@ class ShowFilesInfo(Func):
         self.read_range = 16
 
     def get_name(self, data):
+        result = bytearray(b'')
+        for i in range(len(data)):
+            result.append(int(''.join(data[i]), 16))
+        return result.decode("cp949")
+
+    def get_last_written_date(self, data):
         result = ""
-        for i in range(8):
-            result += chr(int("0x" + data[i], 16))
+        binary = bin(int(''.join(data), 16))[2:].zfill(16)
+        result += str(1980 + int(binary[:7], 2)) + "년 "
+        result += str(int(binary[7:11], 2)) + "월 "
+        result += str(int(binary[11:], 2)) + "일"
+        return result
+
+    def get_last_written_time(self, data):
+        result = ""
+        binary = bin(int(''.join(data), 16))[2:].zfill(16)
+        result += str(int(binary[:5], 2)).zfill(2) + "시 "
+        result += str(int(binary[5:11], 2)).zfill(2) + "분 "
+        result += str(int(binary[11:], 2) * 2).zfill(2) + "초"
         return result
